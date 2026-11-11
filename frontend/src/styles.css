@@ -9,6 +9,11 @@
   --accent: #ff5a1f;
   --accent-strong: #ff7a45;
   --accent-red: #e10600;
+  /* Chart lines: checked for colour-blind readers on the dark background. */
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
   --radius: 10px;
   --gutter: 16px;
   --max: 1120px;
@@ -535,3 +540,21 @@ button.button-ghost { margin-top: 4px; }
 @media (prefers-reduced-motion: reduce) {
   .live-dot::before { animation: none; }
 }
+
+/* Points chart (Standings) */
+.points-chart { margin: 0 0 24px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.chart-legend { list-style: none; margin: 8px 0 4px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.chart-legend li { display: flex; align-items: center; gap: 6px; }
+.chart-key { display: inline-block; width: 14px; height: 3px; border-radius: 2px; flex: none; }
+.chart-box { position: relative; touch-action: pan-y; }
+.chart-box svg { display: block; overflow: visible; }
+.chart-grid { stroke: var(--border); stroke-width: 1; }
+.chart-axis { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.chart-cross { stroke: var(--muted); stroke-width: 1; }
+.chart-dot { stroke: var(--surface); stroke-width: 2; }
+.chart-end { fill: var(--text); font-size: 12px; font-weight: 600; }
+.chart-end-num { fill: var(--muted); font-weight: 400; }
+.chart-tip { position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 13px; display: flex; flex-direction: column; gap: 3px; min-width: 170px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); z-index: 2; }
+.chart-tip-row { display: flex; align-items: center; gap: 6px; }
+.chart-tip-num { margin-left: auto; padding-left: 12px; font-variant-numeric: tabular-nums; font-weight: 600; }
+.points-chart p { margin: 8px 0 0; }

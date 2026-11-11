@@ -4,6 +4,7 @@ import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
 import { usePageTitle } from '../title.js';
 import { Country, Tabs } from '../components/bits.jsx';
+import PointsChart from '../components/PointsChart.jsx';
 import { SeasonPicker } from './Calendar.jsx';
 import { slug } from '../format.js';
 
@@ -38,6 +39,36 @@ function resultClass(result) {
   return '';
 }
 
+// Points before 2024, when Wikipedia's table shows only places:
+// 1st–10th overall, plus 5–1 for the top five on the Power Stage.
+const OLD_POINTS = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
+const OLD_POWER = [5, 4, 3, 2, 1];
+
+function roundPoints(r) {
+  if (r.points != null) return r.points;
+  return (OLD_POINTS[Number(r.result) - 1] ?? 0) + (OLD_POWER[(r.powerStage ?? 0) - 1] ?? 0);
+}
+
+/**
+ * Running totals for the top 4, or null when we can't draw them truthfully
+ * (season not started, or our sums don't match the official totals).
+ */
+function chartData(rows, calendar, kind) {
+  const hasResult = (r) => (r.results ?? [r.result]).some((x) => x);
+  const played = Math.max(-1, ...rows.flatMap((row) => row.rounds.map((r, i) => (hasResult(r) ? i : -1)))) + 1;
+  if (rows.length < 2 || played < 2) return null;
+  const top = rows.slice(0, 4);
+  const series = [];
+  for (const row of top) {
+    let total = 0;
+    const values = row.rounds.slice(0, played).map((r) => (total += roundPoints(r)));
+    if (total !== row.points) return null;
+    series.push({ name: row[NAME_FIELD[kind]], values });
+  }
+  const rounds = top[0].rounds.slice(0, played).map((r, i) => ({ code: r.code, name: calendar[i]?.name }));
+  return { series, rounds };
+}
+
 export default function Standings() {
   const { year } = useParams();
   const { t } = useI18n();
@@ -53,6 +84,7 @@ export default function Standings() {
   const leaderPoints = rows[0]?.points ?? 0;
   const roundsDone = calendar.filter((r) => r.winner).length;
   const finished = calendar.length > 0 && roundsDone === calendar.length;
+  const chart = rows.length ? chartData(rows, calendar, kind) : null;
 
   return (
     <section className="page">
@@ -72,6 +104,7 @@ export default function Standings() {
             {calendar.length > 0 && !finished && (
               <p className="muted small">{t('standingsPage.after', { n: roundsDone, total: calendar.length })}</p>
             )}
+            {chart && <PointsChart key={kind} series={chart.series} rounds={chart.rounds} />}
             <div className="table-wrap">
               <table className="table standings">
                 <thead>
