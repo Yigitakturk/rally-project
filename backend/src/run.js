@@ -1,6 +1,6 @@
 // One full collector run: fetch seasons from Wikipedia, save them, rebuild the
 // drivers/teams/cars lists, and record how it went.
-import { collectSeason } from './collect.js';
+import { collectSeason, FIRST_DETAILED_SEASON } from './collect.js';
 import { saveSeason, rebuildIndexes, saveChampions, saveStatus } from './store.js';
 import { getArticleHtml } from './wiki.js';
 import { parseChampions, CHAMPION_LISTS } from './parse/history.js';
@@ -22,7 +22,16 @@ export function defaultYears(now = new Date()) {
   return [y - 1, y, y + 1];
 }
 
-export async function runCollector(db, years = defaultYears(), log = console.log) {
+/** On the very first run (empty database) fetch every detailed season. */
+async function yearsToCollect(db) {
+  const known = await db.collection('lists').doc('seasons').get();
+  if (known.exists) return defaultYears();
+  const last = new Date().getFullYear() + 1;
+  return Array.from({ length: last - FIRST_DETAILED_SEASON + 1 }, (_, i) => FIRST_DETAILED_SEASON + i);
+}
+
+export async function runCollector(db, years, log = console.log) {
+  years ??= await yearsToCollect(db);
   const startedAt = new Date().toISOString();
   const seasons = {};
   const errors = [];
