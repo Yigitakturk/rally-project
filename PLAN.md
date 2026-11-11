@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Planning in progress (no code yet). Last updated: 11 November 2026.
+**Status:** Plan complete, waiting for manager review (no code yet). Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -53,7 +53,16 @@ Known limits: no live timing; small and national rallies have little Wikipedia c
 
 ## 7. Build order
 
-To be decided.
+1. **Collector first:** confirm we can get good rally data from Wikipedia.
+2. **Site skeleton:** dark style, menu, Turkish/English switch.
+3. **Calendar** and **Rally page**.
+4. **Drivers** and **Teams and cars**.
+5. **Standings** and **History**.
+6. **Home page** (last, because it shows a bit of everything).
+7. **Go online** at the free address, with the collector running daily.
+8. **Custom address** a few weeks later (optional).
+
+Each step is checked in the browser before moving to the next.
 
 ## Research notes
 
