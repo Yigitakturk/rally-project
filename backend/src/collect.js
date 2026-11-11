@@ -69,30 +69,42 @@ export async function collectSeason(year, log = console.log) {
 
 /**
  * People, teams and cars that appear in the collected rallies, with simple
- * counts (starts, wins, podiums) built from the results.
+ * counts (starts, wins, podiums) and their results, built from the rallies.
+ * `seasons` (optional) marks teams that scored in the manufacturers' standings.
  */
-export function buildIndexes(rallies) {
-  const drivers = new Map();
-  const codrivers = new Map();
-  const teams = new Map();
-  const cars = new Map();
-
+export function buildIndexes(rallies, seasons = []) {
+  const maps = { drivers: new Map(), codrivers: new Map(), teams: new Map(), cars: new Map() };
   const key = (x) => (x?.article ? slug(x.article) : x?.name ? slug(x.name) : null);
-  const bump = (map, x, extra, result) => {
-    const k = key(x);
-    if (!k) return;
-    const item = map.get(k) ?? { id: k, name: x.name, article: x.article ?? null, country: x.country ?? null, seasons: [], starts: 0, wins: 0, podiums: 0, rallies: [] };
-    if (!item.country && x.country) item.country = x.country;
-    Object.assign(item, extra?.(item) ?? {});
-    if (result) {
-      if (!item.rallies.includes(result.rallyId)) {
-        item.rallies.push(result.rallyId);
-        item.starts++;
-        if (result.position === 1) item.wins++;
-        if (result.position && result.position <= 3) item.podiums++;
-      }
-      if (!item.seasons.includes(result.season)) item.seasons.push(result.season);
+
+  const manufacturerTeams = new Set();
+  for (const season of seasons) {
+    for (const m of season.standings?.manufacturers ?? []) {
+      if (m.article) manufacturerTeams.add(m.article);
+      if (m.manufacturer) manufacturerTeams.add(m.manufacturer);
     }
+  }
+
+  // Teams are matched by name: Wikipedia links the same team to different
+  // articles over the years (e.g. "Hyundai Motorsport" / "Hyundai World Rally Team").
+  const add = (map, x, result) => {
+    const k = map === maps.teams ? slug(x?.name) : key(x);
+    if (!k) return;
+    const item = map.get(k) ?? {
+      id: k, name: x.name, article: x.article ?? null, country: x.country ?? null,
+      seasons: [], starts: 0, wins: 0, podiums: 0, results: [],
+    };
+    if (!item.country && x.country) item.country = x.country;
+    if (x.article && (result.date ?? '') >= (item.latestDate ?? '')) {
+      item.article = x.article; // keep the newest link
+      item.latestDate = result.date ?? null;
+    }
+    if (!item.results.some((r) => r.rallyId === result.rallyId)) {
+      item.results.push(result);
+      item.starts++;
+      if (result.position === 1) item.wins++;
+      if (result.position && result.position <= 3) item.podiums++;
+    }
+    if (!item.seasons.includes(result.season)) item.seasons.push(result.season);
     map.set(k, item);
   };
 
@@ -101,17 +113,29 @@ export function buildIndexes(rallies) {
     for (const e of rally.entries ?? []) {
       for (const p of [e.driver, e.codriver]) if (p?.article && p.country) countries.set(p.article, p.country);
     }
-    // Every class counts for "starts"; wins and podiums use the overall position.
-    const rows = (rally.classes ?? []).flatMap((c) => c.classification);
-    for (const row of rows) {
-      const result = { rallyId: rally.id, season: rally.season, position: row.position };
-      const withCountry = (p) => p && { ...p, country: p.country ?? countries.get(p.article) ?? null };
-      bump(drivers, withCountry(row.driver), null, result);
-      bump(codrivers, withCountry(row.codriver), null, result);
-      bump(teams, row.entrant, null, result);
-      bump(cars, row.car, null, result);
+    const withCountry = (p) => p && { ...p, country: p.country ?? countries.get(p.article) ?? null };
+
+    // Every class counts as a start; wins and podiums use the overall position.
+    for (const cls of rally.classes ?? []) {
+      for (const row of cls.classification) {
+        const base = {
+          rallyId: rally.id, rally: rally.name, season: rally.season, date: rally.startDate,
+          class: cls.name, position: row.position, classPosition: row.classPosition,
+          status: row.status, retiredOn: row.retiredOn, points: row.points,
+        };
+        add(maps.drivers, withCountry(row.driver), { ...base, codriver: row.codriver?.name ?? null, car: row.car?.name ?? null, team: row.entrant?.name ?? null });
+        add(maps.codrivers, withCountry(row.codriver), { ...base, driver: row.driver?.name ?? null, car: row.car?.name ?? null, team: row.entrant?.name ?? null });
+        add(maps.teams, row.entrant, { ...base, driver: row.driver?.name ?? null, car: row.car?.name ?? null });
+        add(maps.cars, row.car, { ...base, driver: row.driver?.name ?? null, team: row.entrant?.name ?? null });
+      }
     }
   }
-  const list = (m) => [...m.values()].sort((a, b) => b.wins - a.wins || b.starts - a.starts);
-  return { drivers: list(drivers), codrivers: list(codrivers), teams: list(teams), cars: list(cars) };
+
+  for (const team of maps.teams.values()) {
+    team.manufacturerTeam = manufacturerTeams.has(team.article) || manufacturerTeams.has(team.name);
+  }
+  const finish = (m) => [...m.values()]
+    .map(({ latestDate, ...x }) => ({ ...x, seasons: x.seasons.sort(), results: x.results.sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')) }))
+    .sort((a, b) => b.wins - a.wins || b.starts - a.starts);
+  return Object.fromEntries(Object.entries(maps).map(([k, m]) => [k, finish(m)]));
 }

@@ -60,6 +60,7 @@ export function subsections($, root, parentMatch) {
 export function cleanText($, el) {
   const c = $(el).clone();
   c.find('sup.reference, .reference, style, .sortkey, [style*="display:none"]').remove();
+  c.find('br').replaceWith(', ');
   return c.text().replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
 }
 

@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Building. Step 1 (collector + database) done. Last updated: 11 November 2026.
+**Status:** Building. Steps 1–2 (collector, database, API) done. Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -49,15 +49,14 @@ Wikipedia API --(daily)--> Collector --> Firestore --> REST API --> Website
 **Backend (Firebase):**
 - **Collector:** a scheduled Cloud Function that runs once a day, reads Wikipedia/Wikidata through their official API, and saves cleaned data to the database.
 - **Database:** Firestore.
-- **API:** HTTP Cloud Functions that expose read-only JSON endpoints, for example:
-  - `GET /api/seasons/{year}/calendar`
-  - `GET /api/rallies/{id}` (results, stages, retirements)
-  - `GET /api/drivers`, `GET /api/drivers/{id}`
-  - `GET /api/teams`, `GET /api/cars`
-  - `GET /api/seasons/{year}/standings`
-  - `GET /api/history`
-  
-  Final endpoint list to be fixed in build step 2.
+- **API:** one HTTP Cloud Function (`api`) with read-only JSON endpoints:
+  - `GET /api/home`: next rally, latest winner, top 3 drivers
+  - `GET /api/seasons`, `GET /api/seasons/{year}`, `GET /api/seasons/{year}/standings`
+  - `GET /api/rallies/{id}`: info, entries, itinerary, results per class, stage winners, retirements
+  - `GET /api/drivers`, `/api/codrivers`, `/api/cars` (`?season=2026` to filter), `GET /api/teams` (main teams; `?all=true` for every entrant)
+  - `GET /api/{drivers|codrivers|teams|cars}/{id}`: profile with results, plus Wikipedia intro and photo (cached 30 days)
+  - `GET /api/history`: champions since 1973 and most titles
+- **Protections:** answers are cached (browser 5 min, Firebase servers 1 hour), at most 3 API copies run at once, only GET is allowed, and the database is closed to browsers.
 
 **Frontend:**
 - **React** website on **Firebase Hosting**. It only displays data from the API.
@@ -93,7 +92,7 @@ Each step is checked before moving to the next.
 
 - **Step 1 done (11 Nov 2026):** the collector reads WRC seasons and rally articles from Wikipedia and saves them to Firestore. Tested on the local test database with 2020–2027: 101 rallies, ~520 drivers, ~590 co-drivers. The daily run collects last, this and next season, then rebuilds the drivers/teams/cars lists.
 - Scope decisions: **WRC only** for now. **Detailed data from 2020** (older articles use a different layout); earlier years only for the History page.
-- To fix in later steps: the "teams" list includes private entrants (one-person teams); the Teams page should show the main manufacturer teams.
+- **Step 2 done (11 Nov 2026):** the API answers all endpoints above, tested on the local test servers (`npm run api:check`). Teams are matched by name so the same team isn't listed twice; `/api/teams` shows only teams from the manufacturers' standings.
 
 ## Research notes
 

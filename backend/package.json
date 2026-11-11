@@ -10,7 +10,8 @@
   "scripts": {
     "collect:local": "node scripts/collect-local.js",
     "test": "node --test",
-    "collect:emulator": "PATH=/opt/homebrew/opt/openjdk/bin:$PATH firebase emulators:exec --only firestore --project demo-rally --import ../emulator-data --export-on-exit ../emulator-data \"node scripts/collect-to-firestore.js $YEARS\""
+    "collect:emulator": "PATH=/opt/homebrew/opt/openjdk/bin:$PATH firebase emulators:exec --only firestore --project demo-rally --import ../emulator-data --export-on-exit ../emulator-data \"node scripts/collect-to-firestore.js $YEARS\"",
+    "api:check": "PATH=/opt/homebrew/opt/openjdk/bin:$PATH firebase emulators:exec --only firestore,functions --project demo-rally --import ../emulator-data \"node scripts/check-api.js\""
   },
   "dependencies": {
     "cheerio": "^1.2.0",
