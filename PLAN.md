@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Plan complete, waiting for manager review (no code yet). Last updated: 11 November 2026.
+**Status:** Building. Step 1 (collector + database) done. Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -88,6 +88,12 @@ Because the API is separate, a phone app could reuse it later without a new back
 9. **Custom address** a few weeks later (optional).
 
 Each step is checked before moving to the next.
+
+### Progress
+
+- **Step 1 done (11 Nov 2026):** the collector reads WRC seasons and rally articles from Wikipedia and saves them to Firestore. Tested on the local test database with 2020–2027: 101 rallies, ~520 drivers, ~590 co-drivers. The daily run collects last, this and next season, then rebuilds the drivers/teams/cars lists.
+- Scope decisions: **WRC only** for now. **Detailed data from 2020** (older articles use a different layout); earlier years only for the History page.
+- To fix in later steps: the "teams" list includes private entrants (one-person teams); the Teams page should show the main manufacturer teams.
 
 ## Research notes
 
