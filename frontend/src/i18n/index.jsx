@@ -20,6 +20,9 @@ function readSaved() {
 
 function initialLanguage() {
   const codes = LANGUAGES.map((l) => l.code);
+  // A shared link can pick the language: ...?lang=tr
+  const fromLink = new URLSearchParams(window.location.search).get('lang');
+  if (fromLink && codes.includes(fromLink)) return fromLink;
   const saved = readSaved();
   if (saved && codes.includes(saved)) return saved;
   const browser = (navigator.languages ?? [navigator.language]).map((l) => l?.slice(0, 2));
@@ -51,7 +54,12 @@ export function I18nProvider({ children }) {
   const value = useMemo(() => {
     const dict = LANGUAGES.find((l) => l.code === lang)?.dict ?? {};
     const fallback = LANGUAGES.find((l) => l.code === FALLBACK)?.dict ?? {};
-    const t = (key) => lookup(dict, key) ?? lookup(fallback, key) ?? key;
+    // t('calendar.round', { n: 3 }) → "Round 3": {n} is filled in.
+    const t = (key, vars) => {
+      const text = lookup(dict, key) ?? lookup(fallback, key) ?? key;
+      if (!vars || typeof text !== 'string') return text;
+      return text.replace(/\{(\w+)\}/g, (m, name) => (vars[name] ?? m));
+    };
     return { lang, setLang, t, locale: dict._locale ?? lang };
   }, [lang, setLang]);
 

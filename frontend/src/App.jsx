@@ -3,6 +3,8 @@ import Layout from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
 import Placeholder from './pages/Placeholder.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Calendar, { CalendarRedirect } from './pages/Calendar.jsx';
+import Rally from './pages/Rally.jsx';
 
 // Every address on the website. Placeholders are replaced by real pages in steps 4–7.
 export default function App() {
@@ -10,9 +12,9 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="calendar" element={<Placeholder titleKey="pages.calendar" />} />
-        <Route path="calendar/:year" element={<Placeholder titleKey="pages.calendar" />} />
-        <Route path="rallies/:id" element={<Placeholder titleKey="pages.rally" />} />
+        <Route path="calendar" element={<CalendarRedirect />} />
+        <Route path="calendar/:year" element={<Calendar />} />
+        <Route path="rallies/:id" element={<Rally />} />
         <Route path="drivers" element={<Placeholder titleKey="pages.drivers" />} />
         <Route path="drivers/:id" element={<Placeholder titleKey="pages.driver" />} />
         <Route path="codrivers/:id" element={<Placeholder titleKey="pages.codriver" />} />

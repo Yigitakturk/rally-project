@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Building. Steps 1–3 (collector, database, API, website skeleton) done. Last updated: 11 November 2026.
+**Status:** Building. Steps 1–4 done (collector, database, API, website skeleton, Calendar and Rally pages). Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -94,7 +94,8 @@ Each step is checked before moving to the next.
 - Scope decisions: **WRC only** for now. **Detailed data from 2020** (older articles use a different layout); earlier years only for the History page.
 - **Step 2 done (11 Nov 2026):** the API answers all endpoints above, tested on the local test servers (`npm run api:check`). Teams are matched by name so the same team isn't listed twice; `/api/teams` shows only teams from the manufacturers' standings.
 - **Step 3 done (11 Nov 2026):** React website skeleton in `frontend/`: dark and sporty style, menu with all pages (folds into a button on phones), Turkish/English switch (remembers the choice, starts in the visitor's browser language), Wikipedia credit in the footer. Each language is one file in `frontend/src/i18n/`; adding a file adds a language. The home page already reads the next rally and latest winner from the API. Firebase Hosting sends `/api/...` to the API function.
-- To do later: country names come from Wikipedia in English (e.g. "Monaco"); translate them on the pages.
+- **Step 4 done (11 Nov 2026):** Calendar page (season picker 2020–2027, each rally with dates, country flag, road type, stages, distance, winner, "next" marker, "where to watch" link to Rally.TV) and Rally page (facts, winner and Power Stage winner, tabs for results / stages / entries, class picker, retirements with reason, link to live results and to the Wikipedia source). Country names, road types and dates are shown in the visitor's language. The open tab and the language can be put in a link (`?tab=stages&lang=tr`).
+- Still in English from Wikipedia: rally names, stage names and place names (these are proper names).
 
 ## Research notes
 

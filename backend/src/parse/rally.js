@@ -32,10 +32,13 @@ function column(headRows, ...names) {
 }
 
 /** Splits a grid into header rows (all <th>) and data rows. */
-function splitGrid(grid) {
+function splitGrid(grid, { keepFullWidth = false } = {}) {
   let h = 0;
   while (h < grid.length && grid[h].every((c) => c.header)) h++;
-  return { head: grid.slice(0, h), body: grid.slice(h) };
+  // A row that is one cell across the whole table is a note ("Source: ...")
+  // or a group title, not a result.
+  const body = grid.slice(h).filter((row) => keepFullWidth || row.length < 2 || !row.every((c) => c === row[0]));
+  return { head: grid.slice(0, h), body };
 }
 
 function parseInfobox($, root) {
@@ -65,7 +68,7 @@ function parseEntries($, tree) {
   const entries = [];
   for (const table of sectionTables($, sec)) {
     const caption = cleanText($, $(table).children('caption'));
-    const { head, body } = splitGrid(tableGrid($, table));
+    const { head, body } = splitGrid(tableGrid($, table), { keepFullWidth: true });
     const col = {
       no: column(head, 'no.'),
       driver: column(head, 'driver'),
