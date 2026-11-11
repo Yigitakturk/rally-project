@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Building. Steps 1–2 (collector, database, API) done. Last updated: 11 November 2026.
+**Status:** Building. Steps 1–3 (collector, database, API, website skeleton) done. Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -93,6 +93,8 @@ Each step is checked before moving to the next.
 - **Step 1 done (11 Nov 2026):** the collector reads WRC seasons and rally articles from Wikipedia and saves them to Firestore. Tested on the local test database with 2020–2027: 101 rallies, ~520 drivers, ~590 co-drivers. The daily run collects last, this and next season, then rebuilds the drivers/teams/cars lists.
 - Scope decisions: **WRC only** for now. **Detailed data from 2020** (older articles use a different layout); earlier years only for the History page.
 - **Step 2 done (11 Nov 2026):** the API answers all endpoints above, tested on the local test servers (`npm run api:check`). Teams are matched by name so the same team isn't listed twice; `/api/teams` shows only teams from the manufacturers' standings.
+- **Step 3 done (11 Nov 2026):** React website skeleton in `frontend/`: dark and sporty style, menu with all pages (folds into a button on phones), Turkish/English switch (remembers the choice, starts in the visitor's browser language), Wikipedia credit in the footer. Each language is one file in `frontend/src/i18n/`; adding a file adds a language. The home page already reads the next rally and latest winner from the API. Firebase Hosting sends `/api/...` to the API function.
+- To do later: country names come from Wikipedia in English (e.g. "Monaco"); translate them on the pages.
 
 ## Research notes
 

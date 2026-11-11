@@ -1,0 +1,48 @@
+{
+  "_name": "English",
+  "_short": "EN",
+  "_locale": "en-GB",
+  "site": {
+    "name": "Rally",
+    "tagline": "World Rally Championship: calendar, results, drivers and history"
+  },
+  "nav": {
+    "home": "Home",
+    "calendar": "Calendar",
+    "drivers": "Drivers",
+    "teams": "Teams & cars",
+    "standings": "Standings",
+    "history": "History",
+    "menu": "Menu",
+    "close": "Close menu",
+    "language": "Language"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Couldn't load the data. Please try again later.",
+    "retry": "Try again",
+    "comingSoon": "This page is being built.",
+    "notFound": "Page not found",
+    "backHome": "Back to home"
+  },
+  "home": {
+    "nextRally": "Next rally",
+    "latestWinner": "Latest winner"
+  },
+  "pages": {
+    "calendar": "Calendar",
+    "rally": "Rally",
+    "drivers": "Drivers & co-drivers",
+    "driver": "Driver",
+    "codriver": "Co-driver",
+    "teams": "Teams & cars",
+    "team": "Team",
+    "car": "Car",
+    "standings": "Standings",
+    "history": "History"
+  },
+  "footer": {
+    "data": "Data from Wikipedia, available under the licence",
+    "live": "For live times during a rally, see the official WRC website."
+  }
+}

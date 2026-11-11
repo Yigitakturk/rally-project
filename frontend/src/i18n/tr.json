@@ -1,0 +1,48 @@
+{
+  "_name": "Türkçe",
+  "_short": "TR",
+  "_locale": "tr-TR",
+  "site": {
+    "name": "Ralli",
+    "tagline": "Dünya Ralli Şampiyonası: takvim, sonuçlar, pilotlar ve tarihçe"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "calendar": "Takvim",
+    "drivers": "Pilotlar",
+    "teams": "Takımlar ve araçlar",
+    "standings": "Puan durumu",
+    "history": "Tarihçe",
+    "menu": "Menü",
+    "close": "Menüyü kapat",
+    "language": "Dil"
+  },
+  "common": {
+    "loading": "Yükleniyor…",
+    "error": "Veriler yüklenemedi. Lütfen daha sonra tekrar deneyin.",
+    "retry": "Tekrar dene",
+    "comingSoon": "Bu sayfa hazırlanıyor.",
+    "notFound": "Sayfa bulunamadı",
+    "backHome": "Ana sayfaya dön"
+  },
+  "home": {
+    "nextRally": "Sıradaki ralli",
+    "latestWinner": "Son kazanan"
+  },
+  "pages": {
+    "calendar": "Takvim",
+    "rally": "Ralli",
+    "drivers": "Pilotlar ve co-pilotlar",
+    "driver": "Pilot",
+    "codriver": "Co-pilot",
+    "teams": "Takımlar ve araçlar",
+    "team": "Takım",
+    "car": "Araç",
+    "standings": "Puan durumu",
+    "history": "Tarihçe"
+  },
+  "footer": {
+    "data": "Veriler Wikipedia'dan alınmıştır. Lisans:",
+    "live": "Ralli sırasında canlı süreler için resmi WRC web sitesine bakın."
+  }
+}
