@@ -81,7 +81,13 @@ async function standings(db, year) {
 async function list(db, kind, query) {
   const doc = await getDoc(db, 'lists', kind);
   let items = doc.items;
-  if (query.season) items = items.filter((x) => x.seasons.includes(Number(query.season)));
+  if (query.season) {
+    // Show that season's numbers instead of the totals.
+    items = items
+      .filter((x) => x.seasons.includes(Number(query.season)))
+      .map((x) => ({ ...x, ...(x.bySeason?.[query.season] ?? {}) }))
+      .sort((a, b) => b.wins - a.wins || b.classWins - a.classWins || b.podiums - a.podiums || b.starts - a.starts);
+  }
   if (kind === 'teams' && query.all !== 'true') items = items.filter((x) => x.manufacturerTeam);
   return { items, updatedAt: doc.updatedAt };
 }

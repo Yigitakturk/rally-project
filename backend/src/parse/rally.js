@@ -91,7 +91,11 @@ function parseEntries($, tree) {
         number: row[col.no]?.text ?? null,
         driver: person($, row[col.driver]),
         codriver: person($, row[col.codriver]),
-        entrant: { name: row[col.entrant]?.text ?? null, article: links($, row[col.entrant])[0]?.article ?? null },
+        entrant: {
+          name: row[col.entrant]?.text ?? null,
+          article: links($, row[col.entrant])[0]?.article ?? null,
+          country: row[col.entrant] ? flagCountry($, row[col.entrant].el) : null,
+        },
         car: { name: row[col.car]?.text ?? null, article: links($, row[col.car])[0]?.article ?? null },
         tyre: col.tyre >= 0 ? row[col.tyre]?.text || $(row[col.tyre].el).find('a').attr('title') || null : null,
       });

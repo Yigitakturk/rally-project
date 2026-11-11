@@ -243,7 +243,7 @@ export default function Rally() {
               <ArrowLeft size={16} aria-hidden="true" /> {t('rally.back', { year: rally.season })}
             </Link>
             <p className="eyebrow">{t('calendar.round', { n: rally.round })} · {rally.season}</p>
-            <h1 className="page-title">{rally.name}</h1>
+            <h1 className="page-title" lang="">{rally.name}</h1>
             <Facts rally={rally} />
 
             <div className="link-row">

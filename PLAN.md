@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Building. Steps 1–4 done (collector, database, API, website skeleton, Calendar and Rally pages). Last updated: 11 November 2026.
+**Status:** Building. Steps 1–5 done (collector, database, API, website skeleton, Calendar, Rally, Drivers, Teams & cars pages). Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -95,6 +95,7 @@ Each step is checked before moving to the next.
 - **Step 2 done (11 Nov 2026):** the API answers all endpoints above, tested on the local test servers (`npm run api:check`). Teams are matched by name so the same team isn't listed twice; `/api/teams` shows only teams from the manufacturers' standings.
 - **Step 3 done (11 Nov 2026):** React website skeleton in `frontend/`: dark and sporty style, menu with all pages (folds into a button on phones), Turkish/English switch (remembers the choice, starts in the visitor's browser language), Wikipedia credit in the footer. Each language is one file in `frontend/src/i18n/`; adding a file adds a language. The home page already reads the next rally and latest winner from the API. Firebase Hosting sends `/api/...` to the API function.
 - **Step 4 done (11 Nov 2026):** Calendar page (season picker 2020–2027, each rally with dates, country flag, road type, stages, distance, winner, "next" marker, "where to watch" link to Rally.TV) and Rally page (facts, winner and Power Stage winner, tabs for results / stages / entries, class picker, retirements with reason, link to live results and to the Wikipedia source). Country names, road types and dates are shown in the visitor's language. The open tab and the language can be put in a link (`?tab=stages&lang=tr`).
+- **Step 5 done (11 Nov 2026):** Drivers page (drivers / co-drivers, name search that ignores accents, season filter showing that season's numbers), profile pages for drivers, co-drivers, teams and cars (Wikipedia photo and intro, wins / podiums / class wins, results by season, a team's drivers and cars, a car's teams), Teams & cars page (main teams, option to show every entrant, cars table). Teams and cars count every crew. Foreign names keep their own capital letters in Turkish.
 - Still in English from Wikipedia: rally names, stage names and place names (these are proper names).
 
 ## Research notes

@@ -109,5 +109,53 @@
       "shakedown": "Ralli başlamadan önceki deneme sürüşü. Sonuca sayılmaz."
     },
     "group": "Grup"
+  },
+  "people": {
+    "drivers": "Pilotlar",
+    "codrivers": "Co-pilotlar",
+    "search": "İsimle ara",
+    "season": "Sezon",
+    "allSeasons": "Tüm sezonlar",
+    "name": "Ad",
+    "wins": "Galibiyet",
+    "podiums": "Podyum",
+    "classWins": "Sınıf galibiyeti",
+    "starts": "Ralli",
+    "seasons": "Sezonlar",
+    "showMore": "Daha fazla göster",
+    "count": "{n} kişi",
+    "none": "Aramanıza uyan kimse yok.",
+    "help": "Galibiyet ve podyumlar genel sıralamaya göre sayılır. Sınıf galibiyeti, bir araç sınıfındaki (örneğin WRC2) galibiyettir.",
+    "since": "2020'den bu yana sayılar"
+  },
+  "profile": {
+    "back": "Geri",
+    "fromWikipedia": "Wikipedia'dan (İngilizce)",
+    "readMore": "Wikipedia'da devamını oku",
+    "photo": "Fotoğraf: Wikipedia",
+    "results": "Sonuçlar",
+    "rally": "Ralli",
+    "date": "Tarih",
+    "class": "Sınıf",
+    "pos": "Sıra",
+    "car": "Araç",
+    "team": "Takım",
+    "driver": "Pilot",
+    "codriver": "Co-pilot",
+    "points": "Puan",
+    "retired": "Yarış dışı",
+    "drivers": "Pilotlar",
+    "cars": "Araçlar",
+    "teams": "Takımlar",
+    "crews": "Ekipler",
+    "noResults": "2020'den bu yana sonuç yok."
+  },
+  "teamsPage": {
+    "teams": "Takımlar",
+    "cars": "Araçlar",
+    "showAll": "Özel takımlar dahil tüm katılımcıları göster",
+    "mainOnly": "Üretici puanı alan takımlar gösteriliyor.",
+    "count": "{n} takım",
+    "carCount": "{n} araç"
   }
 }

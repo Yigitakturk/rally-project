@@ -375,3 +375,58 @@ tr.power { background: rgba(255, 90, 31, 0.07); }
 }
 .countries { display: inline-flex; flex-wrap: wrap; gap: 2px 12px; }
 .table .countries { gap: 0 6px; }
+
+/* ---------- Lists and profiles ---------- */
+.section-title { font: 700 26px/1.1 var(--font-display); text-transform: uppercase; margin: 32px 0 12px; }
+.filters { display: flex; flex-wrap: wrap; gap: 12px 16px; margin: 4px 0 10px; }
+.field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.field input, .field select {
+  background: var(--surface); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 12px; font: 15px var(--font-body); min-width: 220px;
+}
+.field input:focus, .field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 8px; cursor: pointer; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+.filters + .muted { margin-top: 0; }
+button.button-ghost { margin-top: 4px; }
+
+.profile-head { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+.profile-head > div { flex: 1; min-width: 260px; }
+.profile-photo { margin: 0; width: 180px; flex: none; }
+.profile-photo img {
+  width: 180px; height: 220px; object-fit: cover; object-position: top;
+  border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); display: block;
+}
+.profile-photo figcaption { font-size: 11px; margin-top: 4px; }
+.profile-photo figcaption a { color: var(--muted); }
+
+.stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }
+.stats > div {
+  display: flex; flex-direction: column-reverse; min-width: 96px; padding: 10px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.stats dd { margin: 0; font: 700 30px/1 var(--font-display); color: var(--text); }
+.stats dt { color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
+.intro { max-width: 760px; margin-top: 24px; }
+.intro p { margin: 0 0 8px; }
+
+.chips-row { display: flex; flex-wrap: wrap; gap: 0 40px; }
+.chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font-size: 14px; }
+.chips a { color: var(--text); text-decoration: none; }
+.chips a:hover { color: var(--accent-strong); }
+
+.team-grid { list-style: none; padding: 0; margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.team-grid .card { height: 100%; }
+.team-grid .card-title { font-size: 24px; }
+.team-numbers { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 6px; }
+.team-numbers strong { color: var(--text); font-size: 15px; }
+
+@media (max-width: 560px) {
+  .profile-photo, .profile-photo img { width: 120px; }
+  .profile-photo img { height: 150px; }
+  .stats > div { min-width: 0; flex: 1 1 28%; padding: 8px 10px; }
+  .stats dd { font-size: 24px; }
+  .field, .field input, .field select { width: 100%; min-width: 0; }
+  .filters { display: grid; grid-template-columns: 1fr; }
+}

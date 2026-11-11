@@ -109,5 +109,53 @@
       "shakedown": "A practice run before the rally starts. It doesn't count."
     },
     "group": "Group"
+  },
+  "people": {
+    "drivers": "Drivers",
+    "codrivers": "Co-drivers",
+    "search": "Search by name",
+    "season": "Season",
+    "allSeasons": "All seasons",
+    "name": "Name",
+    "wins": "Wins",
+    "podiums": "Podiums",
+    "classWins": "Class wins",
+    "starts": "Rallies",
+    "seasons": "Seasons",
+    "showMore": "Show more",
+    "count": "{n} people",
+    "none": "No one matches your search.",
+    "help": "Wins and podiums count overall results. Class wins count wins in a car class (for example WRC2).",
+    "since": "Numbers since 2020"
+  },
+  "profile": {
+    "back": "Back",
+    "fromWikipedia": "From Wikipedia (English)",
+    "readMore": "Read more on Wikipedia",
+    "photo": "Photo: Wikipedia",
+    "results": "Results",
+    "rally": "Rally",
+    "date": "Date",
+    "class": "Class",
+    "pos": "Pos.",
+    "car": "Car",
+    "team": "Team",
+    "driver": "Driver",
+    "codriver": "Co-driver",
+    "points": "Pts",
+    "retired": "Retired",
+    "drivers": "Drivers",
+    "cars": "Cars",
+    "teams": "Teams",
+    "crews": "Crews",
+    "noResults": "No results since 2020."
+  },
+  "teamsPage": {
+    "teams": "Teams",
+    "cars": "Cars",
+    "showAll": "Show every entrant, including private teams",
+    "mainOnly": "Showing the teams that score points for manufacturers.",
+    "count": "{n} teams",
+    "carCount": "{n} cars"
   }
 }
