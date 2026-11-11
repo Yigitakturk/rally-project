@@ -31,6 +31,16 @@ export async function saveSeason(db, { season, rallies }) {
   const updatedAt = new Date().toISOString();
   await writeAll(db, 'seasons', [{ id: String(season.year), ...season, updatedAt }]);
   await writeAll(db, 'rallies', rallies.map((r) => ({ ...r, updatedAt })));
+  // A round that was cancelled, renamed or moved gets a new id: remove the old
+  // copy of this season's rallies so it doesn't count twice in the stats.
+  const keep = new Set(rallies.map((r) => r.id));
+  const old = await db.collection('rallies').where('season', '==', season.year).get();
+  const stale = old.docs.filter((d) => !keep.has(d.id));
+  for (let i = 0; i < stale.length; i += 400) {
+    const batch = db.batch();
+    for (const d of stale.slice(i, i + 400)) batch.delete(d.ref);
+    await batch.commit();
+  }
 }
 
 /** Rebuilds the drivers/co-drivers/teams/cars lists from every stored rally. */

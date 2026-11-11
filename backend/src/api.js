@@ -40,13 +40,19 @@ async function home(db) {
   let standings = null;
   let standingsYear = null;
 
-  // Look at the newest seasons until we find both a past and an upcoming rally.
+  // Newest seasons first. The next rally is the earliest one that hasn't
+  // finished, so a late rally of this season comes before next season's first.
   for (const year of years) {
-    const season = await getDoc(db, 'seasons', year);
-    const calendar = season.calendar ?? [];
-    if (!next) {
-      const upcoming = calendar.filter((r) => r.endDate && r.endDate >= now).sort((a, b) => a.startDate.localeCompare(b.startDate));
-      if (upcoming.length) next = { season: year, ...compactRally(upcoming[0]) };
+    const season = await getDoc(db, 'seasons', year).catch((err) => {
+      if (err instanceof NotFound) return null; // listed but not saved (yet)
+      throw err;
+    });
+    const calendar = season?.calendar ?? [];
+    const upcoming = calendar
+      .filter((r) => r.startDate && r.endDate && r.endDate >= now)
+      .sort((a, b) => a.startDate.localeCompare(b.startDate));
+    if (upcoming.length && (!next || upcoming[0].startDate < next.startDate)) {
+      next = { season: year, ...compactRally(upcoming[0]) };
     }
     if (!latest) {
       const done = calendar.filter((r) => r.endDate && r.endDate < now && r.winner).sort((a, b) => b.endDate.localeCompare(a.endDate));
@@ -56,7 +62,8 @@ async function home(db) {
         standingsYear = year;
       }
     }
-    if (next && latest) break;
+    // Once a finished rally is found, older seasons can't hold anything newer.
+    if (latest) break;
   }
   return { nextRally: next, latestRally: latest, standings: { season: standingsYear, drivers: standings ?? [] } };
 }
@@ -146,10 +153,12 @@ export async function route(db, path, query = {}) {
   if (a === 'seasons' && !b) return { items: await listSeasons(db) };
   if (a === 'seasons' && year(b) && !c) return season(db, year(b));
   if (a === 'seasons' && year(b) && c === 'standings') return standings(db, year(b));
-  if (a === 'rallies' && b && !c) return getDoc(db, 'rallies', b);
+  // Our ids only use a-z, 0-9 and "-"; anything else can't exist (and ".." would upset the database).
+  const id = (x) => (/^[a-z0-9-]+$/.test(x ?? '') ? x : null);
+  if (a === 'rallies' && id(b) && !c) return getDoc(db, 'rallies', b);
   if (a === 'history' && !b) return history(db);
   if (PEOPLE.includes(a) && !b) return list(db, a, query);
-  if (PEOPLE.includes(a) && b && !c) return profile(db, a, b);
+  if (PEOPLE.includes(a) && id(b) && !c) return profile(db, a, b);
   throw new NotFound(`Unknown address: ${path}`);
 }
 

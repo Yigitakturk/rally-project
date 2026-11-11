@@ -78,7 +78,8 @@ function ResultsBySeason({ item, kind }) {
   const { t, locale } = useI18n();
   const [params, setParams] = useSearchParams();
   const seasons = [...new Set(item.results.map((r) => r.season))].sort((a, b) => b - a);
-  const chosen = Number(params.get('season')) || seasons[0];
+  const asked = Number(params.get('season'));
+  const chosen = seasons.includes(asked) ? asked : seasons[0];
   const rows = item.results.filter((r) => r.season === chosen).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
   // The "other person" column: a driver's co-driver, a co-driver's driver, a team's or car's driver.
   const other = kind === 'drivers' ? 'codriver' : 'driver';
@@ -114,7 +115,7 @@ function ResultsBySeason({ item, kind }) {
               const finished = r.status === 'finished';
               const pos = r.classPosition ?? r.position;
               return (
-                <tr key={`${r.rallyId}-${r[other]}-${i}`} className={finished ? (pos <= 3 ? `podium p${pos}` : '') : 'retired'}>
+                <tr key={`${r.rallyId}-${r[other]}-${i}`} className={finished ? (pos >= 1 && pos <= 3 ? `podium p${pos}` : '') : 'retired'}>
                   <td className="hide-sm muted">{shortDate(r.date, locale)}</td>
                   <td><Link to={`/rallies/${r.rallyId}`}>{r.rally}</Link></td>
                   <td className="hide-md muted">{r.class}</td>

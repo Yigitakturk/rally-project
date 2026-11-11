@@ -81,7 +81,7 @@ function ResultsTable({ cls }) {
             const finished = row.status === 'finished';
             const pos = row.classPosition ?? row.position;
             return (
-              <tr key={`${row.number}-${i}`} className={finished ? (pos <= 3 ? `podium p${pos}` : '') : 'retired'}>
+              <tr key={`${row.number}-${i}`} className={finished ? (pos >= 1 && pos <= 3 ? `podium p${pos}` : '') : 'retired'}>
                 <td className="num pos">{finished ? pos : t('rally.retired')}</td>
                 <td className="num hide-sm muted">{row.number}</td>
                 <td>
@@ -225,7 +225,8 @@ export default function Rally() {
   if (error?.status === 404) return <NotFound />;
 
   const classes = rally?.classes ?? [];
-  const cls = classes[Math.min(classIndex, classes.length - 1)];
+  const shownClass = Math.max(0, Math.min(classIndex, classes.length - 1));
+  const cls = classes[shownClass];
   const state = rally ? rallyState(rally) : null;
   const tabs = [
     classes.length && { value: 'results', label: t('rally.tabResults') },
@@ -270,7 +271,7 @@ export default function Rally() {
                   <Tabs
                     label={t('rally.class')}
                     tabs={classes.map((c, i) => ({ value: i, label: c.name }))}
-                    value={classIndex}
+                    value={shownClass}
                     onChange={setClassIndex}
                   />
                 )}

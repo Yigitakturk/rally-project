@@ -29,18 +29,28 @@ export async function collectSeason(year, log = console.log) {
     const title = round.article ?? `${year} ${round.eventArticle ?? round.name}`;
     let details = null;
     let source = null;
+    let article;
     try {
-      const article = await getArticleHtml(title);
-      if (article) {
+      article = await getArticleHtml(title);
+    } catch (err) {
+      // Wikipedia didn't answer: stop this season instead of saving it half-empty.
+      // The copy already in the database stays, and tomorrow's run tries again.
+      throw new Error(`Could not read ${title}: ${err.message}`);
+    }
+    if (article) {
+      try {
         details = parseRally(article.html);
         source = { title: article.title, revid: article.revid };
+      } catch (err) {
+        // An article laid out in a way we don't understand: keep the calendar details.
+        log(`Could not understand ${title}: ${err.message}`);
       }
-    } catch (err) {
-      log(`Could not read ${title}: ${err.message}`);
     }
 
     const overall = details?.classes?.[0]?.classification ?? [];
-    const winner = overall.find((r) => r.position === 1) ?? null;
+    // While a rally is still running, Wikipedia may show the current leader: that's not a winner yet.
+    const over = round.endDate && round.endDate < new Date().toISOString().slice(0, 10);
+    const winner = over ? overall.find((r) => r.position === 1) ?? null : null;
     round.winner = winner ? { driver: winner.driver, codriver: winner.codriver, entrant: winner.entrant, car: winner.car } : null;
 
     rallies.push({

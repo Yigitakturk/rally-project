@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
 import { Country } from '../components/bits.jsx';
 import { seasonRange } from './Drivers.jsx';
+
+const PAGE = 120;
 
 function TeamCards({ items }) {
   const { t } = useI18n();
@@ -32,6 +35,7 @@ export default function Teams() {
   const all = params.get('all') === 'true';
   const teams = useApi(`/teams${all ? '?all=true' : ''}`);
   const cars = useApi('/cars');
+  const [shown, setShown] = useState(PAGE);
 
   return (
     <section className="page">
@@ -51,7 +55,12 @@ export default function Teams() {
         {teams.data && (
           <>
             <p className="muted small">{all ? t('teamsPage.count', { n: teams.data.items.length }) : t('teamsPage.mainOnly')}</p>
-            <TeamCards items={all ? teams.data.items.slice(0, 120) : teams.data.items} />
+            <TeamCards items={all ? teams.data.items.slice(0, shown) : teams.data.items} />
+            {all && shown < teams.data.items.length && (
+              <button type="button" className="button button-ghost" onClick={() => setShown((n) => n + PAGE)}>
+                {t('people.showMore')}
+              </button>
+            )}
           </>
         )}
       </Status>

@@ -3,6 +3,7 @@ import { Tv } from 'lucide-react';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import NotFound from './NotFound.jsx';
 import { Country, SurfaceBadge } from '../components/bits.jsx';
 import { dateRange, formatKm, rallyState } from '../format.js';
 
@@ -72,6 +73,7 @@ export default function Calendar() {
   const { data, error, loading, retry } = useApi(`/seasons/${year}`);
   const calendar = data?.calendar ?? [];
   const nextId = calendar.find((r) => rallyState(r) !== 'done')?.id;
+  if (error?.status === 404) return <NotFound />;
 
   return (
     <section className="page">
