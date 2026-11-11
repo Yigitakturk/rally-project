@@ -37,7 +37,7 @@ Known limits: no live timing; small and national rallies have little Wikipedia c
 - **Dark and sporty:** black background with bright orange/red.
 - Works on **phones and computers**.
 
-## 5. Tools (proposed, waiting for approval)
+## 5. Tools (approved)
 
 - **React** for building the pages.
 - **Firebase** for storing the data and putting the site online.
@@ -45,7 +45,11 @@ Known limits: no live timing; small and national rallies have little Wikipedia c
 
 ## 6. Cost
 
-To be decided. Goal: free.
+**Free.**
+
+- **Website:** Firebase free plan (enough for a few hundred to about a thousand visitors a day; can upgrade later if needed).
+- **Daily collector:** runs on GitHub, which is free for public repositories. (Firebase's timed programs need a paid plan, so we don't use them.)
+- **Address:** start with a free Firebase address (e.g. rally-project.web.app). A custom name (about $10–15 a year) may be added a few weeks after launch. The free address keeps working after that.
 
 ## 7. Build order
 
