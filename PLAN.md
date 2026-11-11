@@ -37,32 +37,56 @@ Known limits: no live timing; small and national rallies have little Wikipedia c
 - **Dark and sporty:** black background with bright orange/red.
 - Works on **phones and computers**.
 
-## 5. Tools (approved)
+## 5. Architecture and tools (approved)
 
-- **React** for building the pages.
-- **Firebase** for storing the data and putting the site online.
-- A **daily collector**: a small program that reads Wikipedia's official API once a day and saves the latest data to our storage. Visitors read from our storage, so the site is fast and we don't overload Wikipedia.
+Separated backend and frontend. The frontend never talks to Wikipedia or the database directly; it only uses our API.
+
+```
+Wikipedia API --(daily)--> Collector --> Firestore --> REST API --> Website
+                           [-------------- backend -------------]  [frontend]
+```
+
+**Backend (Firebase):**
+- **Collector:** a scheduled Cloud Function that runs once a day, reads Wikipedia/Wikidata through their official API, and saves cleaned data to the database.
+- **Database:** Firestore.
+- **API:** HTTP Cloud Functions that expose read-only JSON endpoints, for example:
+  - `GET /api/seasons/{year}/calendar`
+  - `GET /api/rallies/{id}` (results, stages, retirements)
+  - `GET /api/drivers`, `GET /api/drivers/{id}`
+  - `GET /api/teams`, `GET /api/cars`
+  - `GET /api/seasons/{year}/standings`
+  - `GET /api/history`
+  
+  Final endpoint list to be fixed in build step 2.
+
+**Frontend:**
+- **React** website on **Firebase Hosting**. It only displays data from the API.
+- Translations live in one dictionary file per language (Turkish, English, more later).
+
+Because the API is separate, a phone app could reuse it later without a new backend.
 
 ## 6. Cost
 
-**Free.**
+**Expected: $0 at our size**, but a card is required.
 
-- **Website:** Firebase free plan (enough for a few hundred to about a thousand visitors a day; can upgrade later if needed).
-- **Daily collector:** runs on GitHub, which is free for public repositories. (Firebase's timed programs need a paid plan, so we don't use them.)
+- Cloud Functions with a timer need Firebase's **pay-as-you-go (Blaze) plan**, which requires a credit card. Its free monthly allowance should cover this project.
+- A **spending alert** (budget alert) will be set at a low amount so there are no surprises.
+- **Billing account owner:** to be confirmed with the manager.
 - **Address:** start with a free Firebase address (e.g. rally-project.web.app). A custom name (about $10–15 a year) may be added a few weeks after launch. The free address keeps working after that.
 
 ## 7. Build order
 
-1. **Collector first:** confirm we can get good rally data from Wikipedia.
-2. **Site skeleton:** dark style, menu, Turkish/English switch.
-3. **Calendar** and **Rally page**.
-4. **Drivers** and **Teams and cars**.
-5. **Standings** and **History**.
-6. **Home page** (last, because it shows a bit of everything).
-7. **Go online** at the free address, with the collector running daily.
-8. **Custom address** a few weeks later (optional).
+1. **Backend: collector + database.** Confirm we can get good rally data from Wikipedia and store it.
+2. **Backend: API.** Fix the endpoint list and make the data available.
+3. **Frontend skeleton:** dark style, menu, Turkish/English switch.
+4. **Calendar** and **Rally page**.
+5. **Drivers** and **Teams and cars**.
+6. **Standings** and **History**.
+7. **Home page** (last, because it shows a bit of everything).
+8. **Go online** at the free address, with the collector running daily and the spending alert set.
+9. **Custom address** a few weeks later (optional).
 
-Each step is checked in the browser before moving to the next.
+Each step is checked before moving to the next.
 
 ## Research notes
 
