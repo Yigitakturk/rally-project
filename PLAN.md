@@ -1,6 +1,6 @@
 # Rally Website — Plan
 
-**Status:** Building. Steps 1–6 done (collector, database, API, website skeleton, and all pages except the full Home page). Last updated: 11 November 2026.
+**Status:** Building. Steps 1–7 done: the whole website works on the local test servers. Next: going online (step 8). Last updated: 11 November 2026.
 
 ## 1. Who is it for?
 
@@ -97,6 +97,7 @@ Each step is checked before moving to the next.
 - **Step 4 done (11 Nov 2026):** Calendar page (season picker 2020–2027, each rally with dates, country flag, road type, stages, distance, winner, "next" marker, "where to watch" link to Rally.TV) and Rally page (facts, winner and Power Stage winner, tabs for results / stages / entries, class picker, retirements with reason, link to live results and to the Wikipedia source). Country names, road types and dates are shown in the visitor's language. The open tab and the language can be put in a link (`?tab=stages&lang=tr`).
 - **Step 5 done (11 Nov 2026):** Drivers page (drivers / co-drivers, name search that ignores accents, season filter showing that season's numbers), profile pages for drivers, co-drivers, teams and cars (Wikipedia photo and intro, wins / podiums / class wins, results by season, a team's drivers and cars, a car's teams), Teams & cars page (main teams, option to show every entrant, cars table). Teams and cars count every crew. Foreign names keep their own capital letters in Turkish.
 - **Step 6 done (11 Nov 2026):** Standings page (season picker; drivers / co-drivers / manufacturers; points, gap to the leader, and a coloured place for every rally; "Champion" badge when the season is over; "hasn't started yet" for future seasons) and History page (most titles for drivers, co-drivers and manufacturers, most rally wins since 2020, champions of every year since 1973). The collector now reads both the old (up to 2023) and new standings layouts.
+- **Step 7 done (11 Nov 2026):** Home page: next rally with a countdown (days / hours / minutes to its first day), "happening now" with a live results link during a rally, where-to-watch link, latest winner, top 3 of the championship, the next rallies, and shortcuts to the other pages.
 - Still in English from Wikipedia: rally names, stage names and place names (these are proper names).
 
 ## Research notes
