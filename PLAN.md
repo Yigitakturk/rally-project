@@ -71,7 +71,8 @@ Because the API is separate, a phone app could reuse it later without a new back
 
 - Cloud Functions with a timer need Firebase's **pay-as-you-go (Blaze) plan**, which requires a credit card. Its free monthly allowance should cover this project.
 - A **spending alert** (budget alert) will be set at a low amount so there are no surprises.
-- **Billing account owner:** to be confirmed with the manager.
+- **Billing account owner:** Yigit (personal card).
+- Note: a budget alert only **warns**, it does not stop spending. Protections: alert at $1, an automatic cut-off if the budget is passed, API caching and request limits, and automatic cleanup of old function images (storage above 0.5 GB can cost a few cents).
 - **Address:** start with a free Firebase address (e.g. rally-project.web.app). A custom name (about $10–15 a year) may be added a few weeks after launch. The free address keeps working after that.
 
 ## 7. Build order
