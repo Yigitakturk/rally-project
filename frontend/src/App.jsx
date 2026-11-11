@@ -1,15 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
-import Placeholder from './pages/Placeholder.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Calendar, { CalendarRedirect } from './pages/Calendar.jsx';
 import Rally from './pages/Rally.jsx';
 import Drivers from './pages/Drivers.jsx';
 import Profile from './pages/Profile.jsx';
 import Teams from './pages/Teams.jsx';
+import Standings, { StandingsRedirect } from './pages/Standings.jsx';
+import History from './pages/History.jsx';
 
-// Every address on the website. Placeholders are replaced by real pages in steps 4–7.
+// Every address on the website.
 export default function App() {
   return (
     <Routes>
@@ -24,9 +25,9 @@ export default function App() {
         <Route path="teams" element={<Teams />} />
         <Route path="teams/:id" element={<Profile kind="teams" key="teams" />} />
         <Route path="cars/:id" element={<Profile kind="cars" key="cars" />} />
-        <Route path="standings" element={<Placeholder titleKey="pages.standings" />} />
-        <Route path="standings/:year" element={<Placeholder titleKey="pages.standings" />} />
-        <Route path="history" element={<Placeholder titleKey="pages.history" />} />
+        <Route path="standings" element={<StandingsRedirect />} />
+        <Route path="standings/:year" element={<Standings />} />
+        <Route path="history" element={<History />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

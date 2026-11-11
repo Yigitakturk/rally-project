@@ -87,7 +87,13 @@ function parseResultCell($, cell) {
     const nums = points.split('+').map(Number).filter((n) => !Number.isNaN(n));
     return { result, points: nums.reduce((a, b) => a + b, 0) };
   }
-  return cell.text ? { result: cell.text, points: null } : null;
+  // Older seasons (up to 2023): "2<sup>2</sup>" = 2nd place, 2nd on the Power Stage.
+  const c = $(cell.el).clone();
+  const sup = c.find('sup').not('.reference').first().text().trim();
+  c.find('sup').remove();
+  const result = c.text().replace(/\s+/g, ' ').trim();
+  if (!result) return null;
+  return { result, points: null, powerStage: /^\d+$/.test(sup) ? Number(sup) : null };
 }
 
 function parseStandings($, root, sectionId, kind) {
@@ -97,7 +103,7 @@ function parseStandings($, root, sectionId, kind) {
   const head = grid[0];
   const nameCol = 1;
   const pointsCol = head.findIndex((c) => c.text.toLowerCase().startsWith('points'));
-  const roundCols = head.map((c, i) => ({ code: c.text, i }))
+  const roundCols = head.map((c, i) => ({ code: c.text.replace(/[,\s]+$/, '').replace(/\[.*?\]/g, '').trim(), i }))
     .filter(({ i }) => i > nameCol && i !== pointsCol);
 
   return grid.slice(1)
@@ -108,7 +114,8 @@ function parseStandings($, root, sectionId, kind) {
       article: cellLink($, row[nameCol]),
       country: flagCountry($, row[nameCol].el),
       points: Number(row[pointsCol]?.text) || 0,
-      rounds: Object.fromEntries(roundCols.map(({ code, i }) => [code, row[i] ? parseResultCell($, row[i]) : null])),
+      // An ordered list (the database doesn't keep the order of object keys).
+      rounds: roundCols.map(({ code, i }) => ({ code, ...(row[i] ? parseResultCell($, row[i]) ?? {} : {}) })),
     }));
 }
 

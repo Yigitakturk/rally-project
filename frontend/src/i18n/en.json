@@ -157,5 +157,40 @@
     "mainOnly": "Showing the teams that score points for manufacturers.",
     "count": "{n} teams",
     "carCount": "{n} cars"
+  },
+  "standingsPage": {
+    "title": "{year} standings",
+    "drivers": "Drivers",
+    "codrivers": "Co-drivers",
+    "manufacturers": "Manufacturers",
+    "pos": "Pos.",
+    "name": "Name",
+    "points": "Points",
+    "gap": "Gap",
+    "notStarted": "This season hasn't started yet.",
+    "legend": "Each column is one rally: the number is the finishing place. Hover or tap a place to see the points.",
+    "ret": "Ret",
+    "pointsTip": "{n} points",
+    "champion": "Champion",
+    "leader": "Leader",
+    "after": "After round {n} of {total}"
+  },
+  "historyPage": {
+    "mostTitles": "Most titles",
+    "drivers": "Drivers",
+    "codrivers": "Co-drivers",
+    "manufacturers": "Manufacturers",
+    "titles": "{n} titles",
+    "title1": "1 title",
+    "champions": "Champions by year",
+    "year": "Year",
+    "driver": "Driver",
+    "codriver": "Co-driver",
+    "manufacturer": "Manufacturer",
+    "car": "Driver champion's car",
+    "mostWins": "Most rally wins since 2020",
+    "wins": "{n} wins",
+    "intro": "The World Rally Championship started in 1973 for manufacturers. A drivers' title was added in 1977 (called the FIA Cup for Drivers until 1979).",
+    "source": "Source: Wikipedia lists of champions"
   }
 }

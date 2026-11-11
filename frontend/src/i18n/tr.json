@@ -157,5 +157,40 @@
     "mainOnly": "Üretici puanı alan takımlar gösteriliyor.",
     "count": "{n} takım",
     "carCount": "{n} araç"
+  },
+  "standingsPage": {
+    "title": "{year} puan durumu",
+    "drivers": "Pilotlar",
+    "codrivers": "Co-pilotlar",
+    "manufacturers": "Üreticiler",
+    "pos": "Sıra",
+    "name": "Ad",
+    "points": "Puan",
+    "gap": "Fark",
+    "notStarted": "Bu sezon henüz başlamadı.",
+    "legend": "Her sütun bir ralli: sayı, bitiriş sırasıdır. Puanı görmek için sıranın üzerine gelin veya dokunun.",
+    "ret": "YD",
+    "pointsTip": "{n} puan",
+    "champion": "Şampiyon",
+    "leader": "Lider",
+    "after": "{total} ayağın {n}. ayağından sonra"
+  },
+  "historyPage": {
+    "mostTitles": "En çok şampiyonluk",
+    "drivers": "Pilotlar",
+    "codrivers": "Co-pilotlar",
+    "manufacturers": "Üreticiler",
+    "titles": "{n} şampiyonluk",
+    "title1": "1 şampiyonluk",
+    "champions": "Yıllara göre şampiyonlar",
+    "year": "Yıl",
+    "driver": "Pilot",
+    "codriver": "Co-pilot",
+    "manufacturer": "Üretici",
+    "car": "Pilot şampiyonunun aracı",
+    "mostWins": "2020'den bu yana en çok ralli kazananlar",
+    "wins": "{n} galibiyet",
+    "intro": "Dünya Ralli Şampiyonası 1973'te üreticiler için başladı. Pilotlar için ödül 1977'de eklendi (1979'a kadar adı FIA Pilotlar Kupası'ydı).",
+    "source": "Kaynak: Wikipedia şampiyonlar listeleri"
   }
 }

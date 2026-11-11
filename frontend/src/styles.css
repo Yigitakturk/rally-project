@@ -430,3 +430,25 @@ button.button-ghost { margin-top: 4px; }
   .field, .field input, .field select { width: 100%; min-width: 0; }
   .filters { display: grid; grid-template-columns: 1fr; }
 }
+
+/* ---------- Standings ---------- */
+.standings .round-col { text-align: center; min-width: 40px; padding-left: 4px; padding-right: 4px; font-variant-numeric: tabular-nums; }
+.standings th.round-col a { color: var(--muted); }
+.standings th.round-col a:hover { color: var(--accent-strong); }
+.standings td.round-col { font-weight: 600; font-size: 13px; }
+.res-1 { background: rgba(255, 211, 77, 0.22); color: #ffe18a; }
+.res-2 { background: rgba(215, 221, 229, 0.16); }
+.res-3 { background: rgba(215, 154, 98, 0.2); color: #f0b98a; }
+.res-pts { background: rgba(76, 175, 80, 0.12); }
+.res-ret { color: var(--accent-red); font-size: 11px !important; }
+.badge-champion { color: #ffd34d; width: fit-content; margin: 2px 0; }
+
+/* ---------- History ---------- */
+.intro-text { max-width: 720px; }
+.cards-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.title-list ol { list-style: none; counter-reset: t; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; }
+.title-list li { counter-increment: t; display: grid; grid-template-columns: 26px 1fr auto; align-items: baseline; column-gap: 8px; }
+.title-list li::before { content: counter(t); font: 700 20px var(--font-display); color: var(--muted); grid-row: span 2; }
+.title-name { font-weight: 600; }
+.title-count { font: 700 18px var(--font-display); color: var(--accent); grid-row: span 2; align-self: center; }
+.title-list .muted { grid-column: 2; }
