@@ -22,6 +22,12 @@ export function StandingsRedirect() {
   );
 }
 
+/** The best of a round's results (a manufacturer has one per car). */
+function bestResult(results) {
+  const nums = results.map(Number).filter((n) => n > 0);
+  return nums.length ? String(Math.min(...nums)) : results[0];
+}
+
 function resultClass(result) {
   const n = Number(result);
   if (n === 1) return 'res-1';
@@ -85,11 +91,11 @@ export default function Standings() {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((row) => {
+                  {rows.map((row, rowIndex) => {
                     const name = row[NAME_FIELD[kind]];
                     const id = slug(kind === 'manufacturers' ? name : row.article ?? name);
                     return (
-                      <tr key={`${row.position}-${name}`} className={row.position <= 3 ? `podium p${row.position}` : ''}>
+                      <tr key={`${kind}-${rowIndex}`} className={row.position <= 3 ? `podium p${row.position}` : ''}>
                         <td className="num pos">{row.position}</td>
                         <td>
                           <div className="crew">
@@ -100,22 +106,28 @@ export default function Standings() {
                         </td>
                         <td className="num"><strong>{row.points}</strong></td>
                         <td className="num hide-sm muted">{row.position > 1 ? `−${leaderPoints - row.points}` : ''}</td>
-                        {row.rounds.map((r, i) => (
-                          <td
-                            key={`${r.code}-${i}`}
-                            className={`round-col hide-sm ${resultClass(r.result)}`}
-                            title={r.points != null ? t('standingsPage.pointsTip', { n: r.points }) : undefined}
-                          >
-                            {/^ret/i.test(r.result ?? '') ? t('standingsPage.ret') : r.result ?? ''}
-                          </td>
-                        ))}
+                        {row.rounds.map((r, i) => {
+                          const results = r.results ?? [r.result ?? ''];
+                          const label = (x) => (/^ret/i.test(x) ? t('standingsPage.ret') : x);
+                          return (
+                            <td
+                              key={i}
+                              className={`round-col hide-sm ${resultClass(bestResult(results))}`}
+                              title={r.points != null ? t('standingsPage.pointsTip', { n: r.points }) : undefined}
+                            >
+                              {results.length > 1
+                                ? <span className="round-cars">{results.map((x, j) => <span key={j}>{label(x)}</span>)}</span>
+                                : label(results[0])}
+                            </td>
+                          );
+                        })}
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
             </div>
-            <p className="muted small hide-sm">{t('standingsPage.legend')}</p>
+            <p className="muted small hide-sm">{t('standingsPage.legend')}{kind === 'manufacturers' && ` ${t('standingsPage.legendManufacturers')}`}</p>
             {data?.source?.url && (
               <a href={data.source.url} target="_blank" rel="noreferrer" className="small">{t('rally.source')}</a>
             )}

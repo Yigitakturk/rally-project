@@ -192,6 +192,7 @@
     "gap": "Gap",
     "notStarted": "This season hasn't started yet.",
     "legend": "Each column is one rally: the number is the finishing place. Hover or tap a place to see the points.",
+    "legendManufacturers": "Manufacturers: each number in a box is one of the team's cars.",
     "ret": "Ret",
     "pointsTip": "{n} points",
     "champion": "Champion",

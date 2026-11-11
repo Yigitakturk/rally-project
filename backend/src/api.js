@@ -80,9 +80,37 @@ async function season(db, year) {
   return { year: s.year, calendar: s.calendar.map(compactRally), source: s.source, updatedAt: s.updatedAt };
 }
 
+/**
+ * Wikipedia lists each manufacturer once per car (2–3 lines with the same
+ * position). Merge them into one line; each round keeps every car's result.
+ */
+export function mergeManufacturerRows(rows = []) {
+  const out = [];
+  for (const row of rows) {
+    const last = out[out.length - 1];
+    if (last && last.position === row.position && last.manufacturer === row.manufacturer) {
+      row.rounds.forEach((r, i) => {
+        const merged = last.rounds[i];
+        if (!merged) return;
+        merged.results.push(r.result ?? '');
+        if (r.points != null) merged.points = (merged.points ?? 0) + r.points;
+      });
+    } else {
+      out.push({ ...row, rounds: row.rounds.map((r) => ({ ...r, results: [r.result ?? ''] })) });
+    }
+  }
+  return out;
+}
+
 async function standings(db, year) {
   const s = await getDoc(db, 'seasons', year);
-  return { year: s.year, ...s.standings, source: s.source, updatedAt: s.updatedAt };
+  return {
+    year: s.year,
+    ...s.standings,
+    manufacturers: mergeManufacturerRows(s.standings?.manufacturers),
+    source: s.source,
+    updatedAt: s.updatedAt,
+  };
 }
 
 async function list(db, kind, query) {
