@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink, Trophy, Zap } from 'lucide-react';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { CarLink, Country, PersonLink, SurfaceBadge, Tabs, TeamLink } from '../components/bits.jsx';
 import NotFound from './NotFound.jsx';
 import { dateRange, dayLabel, formatKm, rallyState } from '../format.js';
@@ -221,6 +222,7 @@ export default function Rally() {
   const setParam = (key, value) => setParams((p) => { p.set(key, value); return p; }, { replace: true });
   const setTab = (v) => setParam('tab', v);
   const setClassIndex = (v) => setParam('class', String(v));
+  usePageTitle(error?.status === 404 ? null : rally ? `${rally.name} ${rally.season}` : t('pages.rally'));
 
   if (error?.status === 404) return <NotFound />;
 

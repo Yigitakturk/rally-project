@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { Country } from '../components/bits.jsx';
 import { seasonRange } from './Drivers.jsx';
 
@@ -36,6 +37,7 @@ export default function Teams() {
   const teams = useApi(`/teams${all ? '?all=true' : ''}`);
   const cars = useApi('/cars');
   const [shown, setShown] = useState(PAGE);
+  usePageTitle(t('pages.teams'));
 
   return (
     <section className="page">

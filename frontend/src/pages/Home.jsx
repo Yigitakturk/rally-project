@@ -4,6 +4,7 @@ import { ArrowRight, CalendarDays, ExternalLink, History as HistoryIcon, Trophy,
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { Country, PersonLink, SurfaceBadge } from '../components/bits.jsx';
 import { dateRange, formatKm, rallyState, shortDate, today } from '../format.js';
 
@@ -162,6 +163,7 @@ function Explore() {
 export default function Home() {
   const { t } = useI18n();
   const { data, error, loading, retry } = useApi('/home');
+  usePageTitle('');
 
   return (
     <section className="page home">

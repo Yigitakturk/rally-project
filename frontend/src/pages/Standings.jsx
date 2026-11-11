@@ -2,6 +2,7 @@ import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { Country, Tabs } from '../components/bits.jsx';
 import { SeasonPicker } from './Calendar.jsx';
 import { slug } from '../format.js';
@@ -38,6 +39,7 @@ export default function Standings() {
   const kind = KINDS.includes(params.get('type')) ? params.get('type') : 'drivers';
   const { data, error, loading, retry } = useApi(`/seasons/${year}/standings`);
   const season = useApi(`/seasons/${year}`);
+  usePageTitle(t('standingsPage.title', { year }));
 
   const rows = data?.[kind] ?? [];
   const calendar = season.data?.calendar ?? [];

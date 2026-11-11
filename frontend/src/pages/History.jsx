@@ -4,6 +4,7 @@ import { Trophy } from 'lucide-react';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { Country } from '../components/bits.jsx';
 import { slug } from '../format.js';
 
@@ -37,6 +38,7 @@ export default function History() {
   const { data, error, loading, retry } = useApi('/history');
   const drivers = useApi('/drivers');
   const codrivers = useApi('/codrivers');
+  usePageTitle(t('pages.history'));
 
   const known = useMemo(() => new Set([
     ...(drivers.data?.items ?? []).map((x) => x.id),

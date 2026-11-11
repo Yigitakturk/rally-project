@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { Country, Tabs } from '../components/bits.jsx';
 import NotFound from './NotFound.jsx';
 import { seasonRange } from './Drivers.jsx';
@@ -139,10 +140,11 @@ export default function Profile({ kind }) {
   const { t } = useI18n();
   const { data: item, error, loading, retry } = useApi(`/${kind}/${id}`);
   const results = useMemo(() => item?.results ?? [], [item]);
+  const label = { drivers: 'pages.driver', codrivers: 'pages.codriver', teams: 'pages.team', cars: 'pages.car' }[kind];
+  usePageTitle(error?.status === 404 ? null : item?.name ?? t(label));
 
   if (error?.status === 404) return <NotFound />;
   const summary = item?.summary;
-  const label = { drivers: 'pages.driver', codrivers: 'pages.codriver', teams: 'pages.team', cars: 'pages.car' }[kind];
 
   return (
     <section className="page">

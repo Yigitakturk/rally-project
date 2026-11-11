@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useApi } from '../api.js';
 import { useI18n } from '../i18n/index.jsx';
 import Status from '../components/Status.jsx';
+import { usePageTitle } from '../title.js';
 import { Country, Tabs } from '../components/bits.jsx';
 
 const PAGE = 50;
@@ -26,6 +27,7 @@ export default function Drivers() {
   const season = params.get('season') ?? '';
   const [query, setQuery] = useState('');
   const [shown, setShown] = useState(PAGE);
+  usePageTitle(t(kind === 'codrivers' ? 'people.codrivers' : 'pages.drivers'));
 
   const seasons = useApi('/seasons');
   const { data, error, loading, retry } = useApi(`/${kind}${season ? `?season=${season}` : ''}`);
